@@ -12,8 +12,7 @@ from xml.etree import ElementTree
 used_files = []
 
 conn = libvirt.open("qemu:///system")
-for vmname in conn.listDefinedDomains():
-    vm = conn.lookupByName(vmname)
+for vm in conn.listAllDomains():
     xmlroot = ElementTree.fromstring(vm.XMLDesc(0)) # get root of XML description
     for source in xmlroot.findall('./devices/disk/source'):
         used_files.append(source.get('file'))
